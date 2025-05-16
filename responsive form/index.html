@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Registration</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Include Axios -->
+  </head>
+  <body>
+    <form id="registrationForm">
+      <h2>User Registration</h2>
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" required /><br />
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required /><br />
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required />
+      <input type="submit" value="Submit" /><br /> <!-- Changed to input[type="submit"] -->
+    </form>
+    <script>
+      document.getElementById('registrationForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const userData = {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          password: formData.get('password')
+        };
+
+        try {
+          const response = await axios.post('/register', userData);
+          alert(response.data.message);
+        } catch (error) {
+          if (error.response) {
+            alert(error.response.data.error);
+          } else {
+            alert('An error occurred. Please try again.');
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
